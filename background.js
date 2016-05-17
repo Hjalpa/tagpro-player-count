@@ -68,7 +68,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Centra",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "centra",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("centra");
@@ -79,7 +79,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Chord",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "chord",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("chord");
@@ -90,7 +90,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Diameter",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "diameter",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("diameter");
@@ -101,7 +101,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Orbit",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "orbit",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("orbit");
@@ -112,7 +112,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Origin",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "origin",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("origin");
@@ -123,7 +123,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Pi",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "pi",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("pi");
@@ -134,7 +134,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Radius",
         parentId: "server_choice",
         type: "radio",
-        checked: false,
+        checked: trackedServer === "radius",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("radius");
@@ -145,7 +145,7 @@ chrome.storage.sync.get("server", function(data) {
         title: "Track Sphere",
         parentId: "server_choice",
         type: "radio",
-        checked: true,
+        checked: trackedServer === "sphere",
         contexts: ["browser_action"],
         onclick: function() {
             changeTrackedServer("sphere");
