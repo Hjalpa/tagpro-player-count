@@ -1,12 +1,13 @@
+var trackedServer = "sphere";
+
 // let player play tagpro when icon clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.update(tab.id, {
-        url: "http://tagpro-sphere.koalabeast.com/games/find/"
+        url: "http://tagpro-" + trackedServer + ".koalabeast.com/games/find/"
     });
 });
 
-// let user choose which server to track via context menu on button in upper-right corner
-var trackedServer = "sphere";
+
 function changeTrackedServer(server) {
     trackedServer = server;
 
