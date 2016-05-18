@@ -3,7 +3,7 @@
 
     "name": "Tagpro Player Count",
     "description": "This extension provides a real-time indication of the number of players on a certain TagPro server.",
-    "version": "1.0",
+    "version": "1.0.1",
 
     "permissions": [
         "contextMenus",
@@ -23,7 +23,8 @@
         "default_icon": {
             "19": "images/icon19.png",
             "38": "images/icon38.png"
-        }
+        },
+        "default_title": "Tagpro Player Count"
     },
-    offline_enabled: false
+    "offline_enabled": false
 }
