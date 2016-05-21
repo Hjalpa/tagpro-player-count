@@ -4,7 +4,7 @@ This is a simple extension that tracks the player count of the various TagPro se
 ## How to use
 This project should be installed as a Chrome extension. Once the extension has successfully loaded, it should be visible in the upper-right corner of Chrome windows. To select which server to use, right-click on the icon and select `Choose Server to Track`->`Track X`.
 
-Every five seconds, the extension will query the chosen server and display the number of players in the text around the extension icon.
+Every minute, the extension will query the chosen server and display the number of players in the text around the extension icon.
 
 To play a game, simply left-click on the icon and you will be directed to the game finding screen for your chosen server.
 

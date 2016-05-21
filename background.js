@@ -156,7 +156,7 @@ chrome.storage.sync.get("server", function(data) {
         // check player count initially
         updatePlayerCount();
 
-        // check again in 5 seconds
-        setTimeout(arguments.callee, 5000);
+        // check again in 60 seconds
+        setTimeout(arguments.callee, 60000);
     })();
 });
