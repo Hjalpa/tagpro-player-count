@@ -1,9 +1,9 @@
-var trackedServer = "sphere";
+var trackedServer = "US East";
 
 // let player play tagpro when icon clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.update(tab.id, {
-        url: "http://tagpro-" + trackedServer + ".koalabeast.com/games/find/"
+        url: "https://tagpro.koalabeast.com/games/find/"
     });
 });
 
@@ -20,7 +20,7 @@ function updatePlayerCount() {
     // check player count
     $.ajax({
         type: "GET",
-        url: "http://tagpro-" + trackedServer + ".koalabeast.com/stats",
+        url: "https://tagpro.koalabeast.com/stats",
         success: function(data) {
             // indicate player count in badge text
             chrome.browserAction.setBadgeText({
@@ -65,93 +65,60 @@ chrome.storage.sync.get("server", function(data) {
     });
 
     chrome.contextMenus.create({
-        title: "Track Centra",
+        title: "Track US East",
         parentId: "server_choice",
         type: "radio",
-        checked: trackedServer === "centra",
+        checked: trackedServer === "US East",
         contexts: ["browser_action"],
         onclick: function() {
-            changeTrackedServer("centra");
+            changeTrackedServer("US East");
         }
     });
 
     chrome.contextMenus.create({
-        title: "Track Chord",
+        title: "Track US Central",
         parentId: "server_choice",
         type: "radio",
-        checked: trackedServer === "chord",
+        checked: trackedServer === "US Central",
         contexts: ["browser_action"],
         onclick: function() {
-            changeTrackedServer("chord");
+            changeTrackedServer("US Central");
         }
     });
 
     chrome.contextMenus.create({
-        title: "Track Diameter",
+        title: "Track US West",
         parentId: "server_choice",
         type: "radio",
-        checked: trackedServer === "diameter",
+        checked: trackedServer === "US West",
         contexts: ["browser_action"],
         onclick: function() {
-            changeTrackedServer("diameter");
+            changeTrackedServer("US West");
         }
     });
 
     chrome.contextMenus.create({
-        title: "Track Orbit",
+        title: "Track Europe",
         parentId: "server_choice",
         type: "radio",
-        checked: trackedServer === "orbit",
+        checked: trackedServer === "Europe",
         contexts: ["browser_action"],
         onclick: function() {
-            changeTrackedServer("orbit");
+            changeTrackedServer("Europe");
         }
     });
 
     chrome.contextMenus.create({
-        title: "Track Origin",
+        title: "Track Oceanic",
         parentId: "server_choice",
         type: "radio",
-        checked: trackedServer === "origin",
+        checked: trackedServer === "Oceanic",
         contexts: ["browser_action"],
         onclick: function() {
-            changeTrackedServer("origin");
+            changeTrackedServer("Oceanic");
         }
     });
-
-    chrome.contextMenus.create({
-        title: "Track Pi",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "pi",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("pi");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track Radius",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "radius",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("radius");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track Sphere",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "sphere",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("sphere");
-        }
-    });
-
+    
     (function() {
         // check player count initially
         updatePlayerCount();
