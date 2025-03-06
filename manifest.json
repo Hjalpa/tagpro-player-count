@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
 
     "name": "Tagpro Player Count",
     "description": "This extension provides a real-time indication of the number of players on a certain TagPro server.",
@@ -17,7 +17,8 @@
     },
 
     "background": {
-        "scripts": ["jquery.js", "background.js"]
+        "scripts": ["jquery.js", "background.js"],
+        "persistent": true  //Explicitly define as persistent if required, otherwise remove
     },
     "browser_action": {
         "default_icon": {
@@ -25,6 +26,5 @@
             "38": "images/icon38.png"
         },
         "default_title": "Tagpro Player Count"
-    },
-    "offline_enabled": false
+    }
 }
