@@ -9,11 +9,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 function changeTrackedServer(server) {
     trackedServer = server;
-
-    chrome.storage.sync.set({server: trackedServer});
-
-    // update immediately so player does not have to wait
-    updatePlayerCount();
+    chrome.storage.sync.set({server: trackedServer}, updatePlayerCount); // Update and then call updatePlayerCount
 }
 
 function updatePlayerCount() {
@@ -21,37 +17,39 @@ function updatePlayerCount() {
     $.ajax({
         type: "GET",
         url: "https://tagpro.koalabeast.com/stats",
+        dataType: "json",  // Expect JSON data
         success: function(data) {
-            // indicate player count in badge text
-            chrome.browserAction.setBadgeText({
-                text: data.players.toString()
-            });
+            if (!data || typeof data !== 'object') {
+                console.error("Invalid data received from API:", data);
+                setExtensionBadge("ERR", "#DB0F35"); // Error state
+                return;
+            }
 
-            if (data.players >= 7) {
-                // green for enough players to join
-                chrome.browserAction.setBadgeBackgroundColor({
-                    color: "#1ABB07"
-                });
+            let ingamePlayers;
+
+            if (data[trackedServer] && typeof data[trackedServer] === 'object' && 'ingame' in data[trackedServer]) {
+                ingamePlayers = data[trackedServer].ingame;
+            } else {
+                console.warn(`'ingame' data not found for ${trackedServer}.`);
+                setExtensionBadge("ERR", "#DB0F35");
+                return;
             }
-            else {
-                // red for not enough players
-                chrome.browserAction.setBadgeBackgroundColor({
-                    color: "#DB0F35"
-                });
-            }
+
+            setExtensionBadge(ingamePlayers.toString(), ingamePlayers >= 7 ? "#1ABB07" : "#DB0F35");
+
         },
-        error: function() {
-            chrome.browserAction.setBadgeText({
-                text: "ERR"
-            });
-
-            // red for error
-            chrome.browserAction.setBadgeBackgroundColor({
-                color: "#DB0F35"
-            });
+        error: function(xhr, status, error) {
+            console.error("Error fetching player count:", status, error);
+            setExtensionBadge("ERR", "#DB0F35");
         }
     });
 }
+
+function setExtensionBadge(text, color) {
+    chrome.browserAction.setBadgeText({ text: text });
+    chrome.browserAction.setBadgeBackgroundColor({ color: color });
+}
+
 
 chrome.storage.sync.get("server", function(data) {
     if (data.server)
@@ -64,66 +62,21 @@ chrome.storage.sync.get("server", function(data) {
         contexts: ["browser_action"]
     });
 
-    chrome.contextMenus.create({
-        title: "Track US East",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "US East",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("US East");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track US Central",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "US Central",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("US Central");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track US West",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "US West",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("US West");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track Europe",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "Europe",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("Europe");
-        }
-    });
-
-    chrome.contextMenus.create({
-        title: "Track Oceanic",
-        parentId: "server_choice",
-        type: "radio",
-        checked: trackedServer === "Oceanic",
-        contexts: ["browser_action"],
-        onclick: function() {
-            changeTrackedServer("Oceanic");
-        }
+    const servers = ["Total", "US East", "US Central", "US West", "Europe", "Oceanic"];
+    servers.forEach(server => {
+        chrome.contextMenus.create({
+            title: `Track ${server}`,
+            parentId: "server_choice",
+            type: "radio",
+            checked: trackedServer === server,
+            contexts: ["browser_action"],
+            onclick: function() {
+                changeTrackedServer(server);
+            }
+        });
     });
     
-    (function() {
-        // check player count initially
-        updatePlayerCount();
-
-        // check again in 60 seconds
-        setTimeout(arguments.callee, 60000);
-    })();
+    // Initial update and set interval.
+    updatePlayerCount(); // Call it immediately
+    setInterval(updatePlayerCount, 60000); // Call it every 60 seconds
 });
